@@ -4,10 +4,10 @@ import ProjectCard from '../layout/ProjectCard.jsx';
 
 const Project = () => {
   const [imageData, setImageData] = useState([]);
-
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
     // Fetch image URLs from the specified endpoint
-    fetch('https://localhost:7074/api/pictures/imageUrls')
+    fetch(`${apiBaseUrl}/api/pictures/imageUrls`)
       
       .then((response) => {
         if (!response.ok) {

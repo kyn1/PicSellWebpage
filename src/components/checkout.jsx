@@ -6,7 +6,7 @@ const Checkout = ({ img, price, downloadUrl, onClose, onCreateError, onCreateSuc
     email: '',
     amount: price, // Convert to the lowest currency unit
     currency: 'GH',
-    callbackUrl: 'http://localhost:5173',
+    callbackUrl: import.meta.env.VITE_API_BASE_URL,
     imageUrl: img,
     downloadUrl: downloadUrl,
   });
@@ -27,8 +27,8 @@ const Checkout = ({ img, price, downloadUrl, onClose, onCreateError, onCreateSuc
     try {
       setLoading(true);
       setError(null);
-  
-      const response = await axios.post('https://localhost:7074/api/paystack/initialize', formData);
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+      const response = await axios.post(`${apiBaseUrl}/api/paystack/initialize`, formData);
       console.log(response.data.transactionUrl);
   
       if (onCreateSuccess) {
@@ -75,7 +75,7 @@ const Checkout = ({ img, price, downloadUrl, onClose, onCreateError, onCreateSuc
       setError(null);
   
       // Call the VerifyTransaction method in PaystackService
-      const response = await axios.post('https://localhost:7074/api/paystack/verify', { reference });
+      const response = await axios.post(`${apiBaseUrl}/api/paystack/verify`, { reference });
       console.log('Verification response:', response.data);
   
       // Check if the payment verification is successful
@@ -117,7 +117,7 @@ const Checkout = ({ img, price, downloadUrl, onClose, onCreateError, onCreateSuc
         OrderDate: new Date().toISOString(), // You mentioned an empty string here
       };
       console.log('OrderValue:', OrderValue);
-      const response = await axios.post('https://localhost:7074/api/Order', OrderValue);
+      const response = await axios.post(`${apiBaseUrl}/api/Order`, OrderValue);
       console.log(response);
   
       if (onCreateSuccess) {
